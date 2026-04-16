@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aruba Taxi Driver Receipt</title>
+  <meta name="theme-color" content="#111827" />
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f8fafc;margin:0;padding:16px;color:#111827}
+    .wrap{max-width:560px;margin:0 auto}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;padding:20px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+    .center{text-align:center}.muted{color:#6b7280}.row{margin:10px 0}.line{border-top:1px dashed #111;margin:14px 0}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+    .btn{display:inline-block;background:#111827;color:#fff;text-decoration:none;padding:12px 16px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer}
+    .btn.secondary{background:#fff;color:#111827;border:1px solid #d1d5db}
+    .small{font-size:12px}
+    @media print{.btns{display:none} body{padding:0;background:#fff} .card{box-shadow:none;border:none;border-radius:0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="center">
+        <h2 id="business" style="margin:0 0 6px">Aruba Taxi Driver</h2>
+        <div id="website" class="muted"></div>
+        <div id="phone" class="muted"></div>
+      </div>
+      <div class="line"></div>
+      <div class="row"><strong>Date:</strong> <span id="date"></span></div>
+      <div class="row"><strong>From:</strong> <span id="from"></span></div>
+      <div class="row"><strong>To:</strong> <span id="to"></span></div>
+      <div class="row"><strong>Base Fare:</strong> <span id="baseFare"></span></div>
+      <div class="row"><strong>Waiting Time:</strong> <span id="waitingMinutes"></span></div>
+      <div class="row"><strong>Waiting Charge:</strong> <span id="waitingCharge"></span></div>
+      <div class="row"><strong>Total Fare:</strong> <span id="fare"></span></div>
+      <div class="row"><strong>Taxi Plate:</strong> <span id="plate"></span></div>
+      <div class="row" id="driverWrap" style="display:none"><strong>Driver:</strong> <span id="driver"></span></div>
+      <div class="row" id="notesWrap" style="display:none"><strong>Notes:</strong> <span id="notes"></span></div>
+      <div class="line"></div>
+      <div class="center">
+        <div>Thank you for choosing Aruba Taxi Driver</div>
+        <div class="small muted" style="margin-top:8px">This is your digital taxi receipt.</div>
+      </div>
+      <div class="btns">
+        <button class="btn" onclick="window.print()">Download / Print PDF</button>
+        <a class="btn secondary" id="mainSite" href="https://arubataxidriver.com">Main website</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    const q = new URLSearchParams(window.location.search);
+    function set(id, value){ document.getElementById(id).textContent = value || ''; }
+    const business = q.get('business') || 'Aruba Taxi Driver';
+    const website = q.get('website') || 'https://arubataxidriver.com';
+    set('business', business);
+    set('website', website);
+    set('phone', q.get('phone') || '+297 560 0895');
+    set('date', q.get('date') || '');
+    set('from', q.get('from') || '');
+    set('to', q.get('to') || '');
+    set('baseFare', q.get('baseFare') || '');
+    set('waitingMinutes', (q.get('waitingMinutes') || '0') + ' min');
+    set('waitingCharge', q.get('waitingCharge') || '');
+    set('fare', q.get('fare') || '');
+    set('plate', q.get('plate') || '');
+    const driver = q.get('driver') || '';
+    const notes = q.get('notes') || '';
+    if (driver) { set('driver', driver); document.getElementById('driverWrap').style.display = 'block'; }
+    if (notes) { set('notes', notes); document.getElementById('notesWrap').style.display = 'block'; }
+    document.getElementById('mainSite').href = website;
+  </script>
+</body>
+</html>
